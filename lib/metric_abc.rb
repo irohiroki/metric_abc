@@ -5,9 +5,7 @@ class MetricABC
   attr_accessor :ast, :complexity
 
   def initialize(file_name)
-    File.open(file_name, "r") do |f|
-      @ast = Ripper::SexpBuilder.new(f.read).parse
-    end  
+    @ast = Ripper.sexp_raw(File.read(file_name))
     return if @ast.empty?
     @complexity = {}
     @nesting = [file_name]
