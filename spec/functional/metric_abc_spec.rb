@@ -16,22 +16,23 @@ end
 
 describe MetricABC, "calculating" do
   before :each do
-    @metric = MetricABC.new(File.join(File.dirname(__FILE__), "..", "fixtures", "example.rb"))
+    @file_name = File.join(File.dirname(__FILE__), "..", "fixtures", "example.rb")
+    @metric = MetricABC.new(@file_name)
   end
 
   it "should have 1 complexity for simple function" do
-    @metric.complexity["Example#simple_function"].should eql(1)
+    @metric.complexity["#{@file_name} > Example > simple_function"].should eql(1)
   end
 
   it "should recognize top level functions" do
-    @metric.complexity["outside_function"].should_not be_nil
+    @metric.complexity["#{@file_name} > outside_function"].should_not be_nil
   end
 
   it "should recognize modules functions" do
-    @metric.complexity["Test#Test2#class_in_module_function"].should_not be_nil
+    @metric.complexity["#{@file_name} > Test > Test2 > class_in_module_function"].should_not be_nil
   end
 
   it "should have complexity of 7 for medium method" do
-    @metric.complexity["Example#medium_function"].should eql(7)
+    @metric.complexity["#{@file_name} > Example > medium_function"].should eql(7)
   end
 end
