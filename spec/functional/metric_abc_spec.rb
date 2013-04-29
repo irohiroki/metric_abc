@@ -12,6 +12,9 @@ describe MetricABC, "initialization" do
     lambda{ MetricABC.new(File.join(File.dirname(__FILE__), "..", "fixtures", "not_found.rb"))}.should raise_exception
   end
 
+  it "should throw exception when file is not valid" do
+    expect{ MetricABC.new(File.expand_path('../../fixtures/not_valid.rb', __FILE__)) }.to raise_error(MetricABC::InvalidCode)
+  end
 end
 
 describe MetricABC, "calculating" do

@@ -1,12 +1,14 @@
 require 'ripper'
 require 'pp' if ENV["DEBUG"]
 
+require 'metric_abc/invalid_code'
+
 class MetricABC
   attr_accessor :ast, :complexity
 
   def initialize(file_name)
     @ast = Ripper.sexp_raw(File.read(file_name))
-    return if @ast.empty?
+    raise MetricABC::InvalidCode.new("Invalid file: #{file_name}") unless @ast && @ast.any?
     @complexity = {}
     @nesting = [file_name]
     process_ast(@ast)
